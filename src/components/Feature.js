@@ -124,6 +124,8 @@ const Feature = ({
           <h3>{featuredResult.title}</h3>
           <h4>{featuredResult.dated}</h4>
         </header>
+        <span className="title">Description</span>
+        <span className="content">{featuredResult.description}</span>
         <section className="facts">
           <span className="title">Culture</span>
           <Searchable
@@ -132,12 +134,59 @@ const Feature = ({
             setIsLoading={setIsLoading}
             setSearchResults={setSearchResults}
           />
-          {/* <span className="content">{featuredResult.culture}</span> */}
-          <span className="title">NEXT FACT NAME</span>
-          <span className="content">NEXT FACT VALUE</span>
+          <span className="title">Technique</span>
+          <Searchable
+            searchTerm={"technique"}
+            searchValue={featuredResult.technique}
+            setIsLoading={setIsLoading}
+            setSearchResults={setSearchResults}
+          />
+          <span className="title">People</span>
+          {featuredResult.people
+            ? featuredResult.people.map((person) => {
+                return (
+                  <Searchable
+                    searchTerm={"person"}
+                    searchValue={person.displayname}
+                    setIsLoading={setIsLoading}
+                    setSearchResults={setSearchResults}
+                  />
+                );
+              })
+            : null}
+          <span className="title">Medium</span>
+          <Searchable
+            searchTerm={"medium"}
+            searchValue={featuredResult.medium}
+            setIsLoading={setIsLoading}
+            setSearchResults={setSearchResults}
+          />
+          <span className="title">Style</span>
+          <span className="content">{featuredResult.style}</span>
+          <span className="title">Dimensions</span>
+          <span className="content">{featuredResult.dimensions}</span>
+          <span className="title">Department</span>
+          <span className="content">{featuredResult.department}</span>
+          <span className="title">Division</span>
+          <span className="content">{featuredResult.division}</span>
+          <span className="title">Contact</span>
+          <span className="content">{featuredResult.contact}</span>
+          <span className="title">Credit</span>
+          <span className="content">{featuredResult.creditline}</span>
         </section>
         <section className="photos">
-          {/* <img src=IMAGE_URL alt=SOMETHING_WORTHWHILE /> */}
+          <img
+            src={featuredResult.primaryimageurl}
+            alt={featuredResult.title}
+          />
+          {featuredResult.images
+            ? featuredResult.images.map((image) => {
+                console.log(image);
+                return (
+                  <img src={image.baseimageurl} alt={featuredResult.title} />
+                );
+              })
+            : null}
         </section>
       </div>
     </main>
