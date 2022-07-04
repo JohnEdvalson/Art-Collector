@@ -6,7 +6,12 @@ import React from "react";
  */
 import { fetchQueryResultsFromURL } from "../api";
 
-const Preview = (props) => {
+const Preview = ({
+  setSearchResults,
+  setFeaturedResult,
+  setIsLoading,
+  searchResults: { info, records },
+}) => {
   /**
    *  Destructure setSearchResults, setFeaturedResult, and setIsLoading from props
    *  and also destructure info and records from props.searchResults
@@ -38,41 +43,50 @@ const Preview = (props) => {
         {/* This button should be disabled if nothing is set in info.prev, and should call fetchPage with info.prev when clicked */}
         <button
           // TODO Fill in the {} with the correct value
-          // disabled={}
+          disabled={!info.prev}
           className="previous"
           // TODO Fill in or replace this onClick with the correct callback
-          onClick={() => {}}
+          onClick={() => {
+            fetchPage(info.prev);
+          }}
         >
           Previous
         </button>
         {/* This button should be disabled if nothing is set in info.next, and should call fetchPage with info.next when clicked */}
         <button
           // TODO in the next {} with the correct value:
-          // disabled={}
+          disabled={!info.next}
           className="next"
           // TODO Fill in or replace this on Click with the correct callback
-          onClick={() => {}}
+          onClick={() => {
+            fetchPage(info.next);
+          }}
         >
           Next
         </button>
       </header>
       <section className="results">
-        {/* Here we should map over the records, and render something like this for each one:
-          <div  
-            key={ index }
+        {records.map((record) => (
+          <div
+            key={record.id}
             className="object-preview"
             onClick={(event) => {
-              // prevent the default
-              // set the featured result to be this record, using setFeaturedResult
-            }}>
-            { 
-              // if the record.primaryimageurl exists, show this: <img src={ record.primaryimageurl } alt={ record.description } />, otherwise show nothing 
+              event.preventDefault();
+              setFeaturedResult(record);
+            }}
+          >
+            {
+              record.primaryimageurl ? (
+                <img src={record.primaryimageurl} alt={record.description} />
+              ) : null
+              // if the record.primaryimageurl exists, show this: <img src={ record.primaryimageurl } alt={ record.description } />, otherwise show nothing
             }
             {
+              record.title ? <h3>{record.title}</h3> : <h3>MISSING INFO</h3>
               // if the record.title exists, add this: <h3>{ record.title }</h3>, otherwise show this: <h3>MISSING INFO</h3>
             }
           </div>
-        */}
+        ))}
       </section>
     </aside>
   );
